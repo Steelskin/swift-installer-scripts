@@ -43,7 +43,7 @@
       <SignToolPath Condition=" '$(SignToolPath)' == '' AND '$(PROCESSOR_ARCHITECTURE)' == 'ARM64' AND Exists('$(WindowsKitsRoot)bin\10.0.10586.0\arm64\signtool.exe')">$(WindowsKitsRoot)bin\10.0.10586.0\arm64\</SignToolPath>
       <SignToolPath Condition=" '$(SignToolPath)' == '' AND '$(PROCESSOR_ARCHITECTURE)' == 'ARM64' AND Exists('$(WindowsKitsRoot)bin\10.0.10240.0\arm64\signtool.exe')">$(WindowsKitsRoot)bin\10.0.10240.0\arm64\</SignToolPath>
 
-      <SignTool>"$(SignToolPath)signtool.exe" sign /f "$(CERTIFICATE)" /p "$(PASSPHRASE)" /tr http://timestamp.digicert.com /fd sha256 /td sha256</SignTool>
+      <SignTool>"$(SignToolPath)signtool.exe" sign /v /debug /f "$(CERTIFICATE)" /p "$(PASSPHRASE)" /tr http://timestamp.digicert.com /fd sha256 /td sha256</SignTool>
     </PropertyGroup>
   </Target>
 
