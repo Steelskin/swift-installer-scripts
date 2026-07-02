@@ -68,6 +68,23 @@
     <BundleCompressionLevel>high</BundleCompressionLevel>
   </PropertyGroup>
 
+  <!--
+  offline-sfx behaves like the online flavor at the WiX layer — installer.exe
+  references the packages as external payloads rather than embedding them, so
+  the build never produces the single >2 GiB attached cabinet that trips the
+  CAB size limit. The loose .msi/.cab files are then folded back into a single
+  self-extracting executable by bundle/sfx (see bundle/sfx/pack-sfx.ps1), which
+  has no such size limit. Leave BaseReleaseDownloadUrl empty: the payloads ship
+  inside the SFX, so no download fallback is wanted.
+  -->
+  <PropertyGroup Condition="'$(BundleFlavor)' == 'offline-sfx'">
+    <PackageCompressionLevel>high</PackageCompressionLevel>
+    <ArePackageCabsEmbedded>false</ArePackageCabsEmbedded>
+
+    <IsBundleCompressed>false</IsBundleCompressed>
+    <BundleCompressionLevel>high</BundleCompressionLevel>
+  </PropertyGroup>
+
   <Import Project="$(USERNAME).props" Condition="Exists('$(USERNAME).props')" />
 
   <PropertyGroup>

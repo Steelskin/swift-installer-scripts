@@ -1,0 +1,7 @@
+// Copyright © 2026 Saleem Abdulrasool <compnerd@compnerd.org>
+// SPDX-License-Identifier: Apache-2.0
+
+#include "resource.h"
+
+// Reuse the bundle's icon so the wrapper matches the installer it launches.
+IDI_APPICON ICON "..\\logo.ico"

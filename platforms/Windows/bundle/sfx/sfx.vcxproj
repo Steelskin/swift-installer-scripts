@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|ARM64">
+      <Configuration>Debug</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|ARM64">
+      <Configuration>Release</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{7F3A2C9D-1B4E-4A6F-8C2D-5E9F0A3B6C1D}</ProjectGuid>
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <TargetName>sfx</TargetName>
+  </PropertyGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+
+  <PropertyGroup Label="Toolset">
+    <!-- Follow whatever toolset the invoking VS provides, like baf. -->
+    <PlatformToolset Condition=" '$(DefaultPlatformToolset)' != '' ">$(DefaultPlatformToolset)</PlatformToolset>
+  </PropertyGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+
+  <PropertyGroup>
+    <!-- Route output into the shared build/ tree like the other projects. -->
+    <OutDir>$(OutputPath)</OutDir>
+    <IntDir>$(IntermediateOutputPath)</IntDir>
+  </PropertyGroup>
+
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <!-- GUI subsystem: no console window. Silent mode attaches to the
+           parent console explicitly (see sfx.cc). -->
+      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>comctl32.lib;shell32.lib;ole32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <ItemDefinitionGroup Condition=" '$(Configuration)' == 'Release' ">
+    <ClCompile>
+      <!-- Statically link the CRT so the stub runs on a bare machine. -->
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+  </ItemDefinitionGroup>
+
+  <ItemDefinitionGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+  </ItemDefinitionGroup>
+
+  <ItemGroup>
+    <ClCompile Include="sfx.cc" />
+    <ResourceCompile Include="sfx.rc" />
+  </ItemGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>
