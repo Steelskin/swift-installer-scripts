@@ -12,7 +12,13 @@
     </PropertyGroup>
   </Target>
 
+  <!-- HACK (wip-use-external-catalog): when RuntimeWin32AssembliesExternal=true, the
+       per-DLL assembly tree (dll + manifest + signed .cat) is generated OUT OF BAND
+       in the packaging job and provided via RuntimeWin32AssemblyRoot; WiX just harvests
+       it (rtl.dynamic.lib.wxs references $(RuntimeWin32AssemblyRoot)\<lib>\<lib>.{dll,
+       manifest,cat} directly). Skip all in-build generation + signing in that mode. -->
   <Target Name="GenerateRuntimeWin32Assemblies"
+          Condition=" '$(RuntimeWin32AssembliesExternal)' != 'true' "
           DependsOnTargets="_DefineRuntimeWin32AssemblyConstants;FindWindowsSDKTools;FindSignTool"
           BeforeTargets="CoreCompile;Compile">
     <PropertyGroup>
